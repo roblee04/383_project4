@@ -28,7 +28,7 @@ public class Main {
         }
 
         public int getArrival() {
-		return arrival_time;
+		return this.arrival_time;
 	}
     }
 
@@ -36,7 +36,7 @@ public class Main {
         ArrayList<Job> job_list = new ArrayList<Job>();
 
         long seed = (System.currentTimeMillis());
-        int num_jobs = 32;
+        int num_jobs = 150;
         System.out.println(seed);
 
         job_list = generate_jobs(num_jobs, seed);
@@ -73,7 +73,7 @@ public class Main {
             job_list.add(new_job);
         }
         // want to sort by arrival time, not correct
-        // Collections.sort(job_list, Comparator.comparing(Job::getArrival));
+        Collections.sort(job_list, Comparator.comparing(Job::getArrival));
         
         return job_list;
 
@@ -82,13 +82,32 @@ public class Main {
 
     public static void graph(ArrayList<Job> job_list) {
 
+        String header = "PID | ";
+        for(int i = 0; i < 101; i++) {
+            if( ((double)i%10) == 0) {
+                header += String.valueOf(i/10);
+            }
+            else {
+                header += "-";
+            }
+        }
+        System.out.println(header);
+
         for(Job j : job_list) {
             // System.out.println("pid: " + j.pid); 
-            System.out.println("pid: " + j.pid + " | size: " + j.size + " | serv: " + j.service_time + " | arr: " + j.arrival_time);
-            // System.out.println(job_list.get(i).pid + " service: " + job_list.get(i).service_time)
+
+            String out = "";
+            for(int i = 0; i < j.arrival_time; i++) {
+                out += " ";
+            }
+            for(int i = 0; i < j.service_time; i++) {
+                out += "_";
+            }
+
+            // System.out.println("pid: " + j.pid + " | size: " + j.size + " | serv: " + j.service_time + " | arr: " + j.arrival_time);
+            System.out.println(" " +j.pid + " | " + out);
         }
+        System.out.println("\n" + job_list.size() + " jobs");
     }
-
-
 
 }
